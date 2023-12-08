@@ -1,5 +1,133 @@
 <%- include ('partials/header.ejs') %>
+  <div id="loading" class="loader-container hidden">
+    <div class="loader"></div>
+  </div>
+  <div class="container">
+    <form onsubmit="submitForm(event)">
+      <div class="form-card w-full">
+        <div class="card-header">
+          <h3>Add New Game</h3>
+        </div>
+        <div class="form-card-body">
+          <div class="flex flex-col gap-4">
+            <div class="grid grid-cols-2">
+              <label>Name</label>
+              <div class="input-container">
+                <input id="name" name="name" required type="text" class="input-field" placeholder="Name">
+              </div>
+            </div>
+            <hr class="w-full" />
+            <div class="grid grid-cols-2">
+              <label>Thumbnail</label>
+              <div class="upload-container">
+                <label for="thumbnail" class="upload-button">Choose a File</label>
+                <input id="thumbnail" name="thumbnail" type="file" class="file-input" onchange="displayFileName()">
+                <p id="file-name-display" class="file-name">No file chosen</p>
+              </div>
+            </div>
+            <hr class="w-full" />
+            <div class="grid grid-cols-2">
+              <label>Min Players</label>
+              <div class="input-container">
+                <input id="min_players" name="min_players" type="number" class="input-field" placeholder="Min Players">
+              </div>
+            </div>
+            <hr class="w-full" />
+            <div class="grid grid-cols-2">
+              <label>Max Players</label>
+              <div class="input-container">
+                <input id="max_players" name="max_players" type="text" class="input-field" placeholder="Max Players">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-card-footer">
+          <div class="flex w-full gap-4 justify-end items-center">
+            <a class="link" href="/">
+              <button type="button" class="button-2 w-fit size-md" role="button">Cancel</button>
+            </a>
+            <button type="submit" class="button-1 w-fit size-md" role="button">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 
-    TODO: Make a form for adding a game
+  <script>
+    function loading(loading = false) {
+      if (loading) {
+        document.getElementById('loading').classList.remove('hidden');
+      } else {
+        document.getElementById('loading').classList.add('hidden');
+      }
+    }
 
-    <%- include ('partials/footer.ejs') %>
+    function readFileAsync(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+          resolve(event.target.result);
+        };
+
+        reader.onerror = function (error) {
+          reject(error);
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitForm(event) {
+      event.preventDefault()
+      loading(true)
+      const name = document.getElementById('name').value;
+      const thumbnail = document.getElementById('thumbnail').files[0];
+      const min_players = document.getElementById('min_players').value;
+      const max_players = document.getElementById('max_players').value;
+
+      const data = {}
+
+      if (name) data.name = name
+      if (min_players) data.min_players = +min_players
+      if (max_players) data.max_players = +max_players
+
+      if (thumbnail) {
+        data.thumbnail = await readFileAsync(thumbnail)
+      }
+
+      fetch('/add-game', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.text())
+        .then(data => {
+          loading(false)
+          window.location = '/'
+          window.alert(data)
+        })
+        .catch(error => {
+          loading(false)
+          console.error('Error:', error);
+        });
+
+    }
+  </script>
+  <script>
+    function displayFileName() {
+      const fileInput = document.getElementById('thumbnail');
+      const fileNameDisplay = document.getElementById('file-name-display');
+
+      if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = fileInput.files[0].name;
+      } else {
+        fileNameDisplay.textContent = 'No file chosen';
+      }
+    }
+  </script>
+
+
+  <%- include ('partials/footer.ejs') %>

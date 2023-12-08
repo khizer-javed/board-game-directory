@@ -1,28 +1,28 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-CREATE TABLE "games"
-(
-  "id" uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
-  "fkUserId" uuid NOT NULL,
-  "token" text NOT NULL,
-  "expiredAt" timestamptz,
-  "ip" varchar(50),
-  "userAgent" jsonb,
-  "createdAt" timestamptz NOT NULL,
-  "updatedAt" timestamptz
+-- // ---- Base Tables ----
+CREATE TABLE `miechallenge`.`games` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `thumbnail` LONGTEXT NULL,
+  `max_players` INT NULL,
+  `min_players` INT NULL,
+  `created_at` TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP NULL,
+  `deleted_at` TIMESTAMP NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE
 );
 
-
-CREATE TABLE "game_sessions"
-(
-  "id" uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
-  "fkUserId" uuid NOT NULL,
-  "token" text NOT NULL,
-  "expiredAt" timestamptz,
-  "ip" varchar(50),
-  "userAgent" jsonb,
-  "createdAt" timestamptz NOT NULL,
-  "updatedAt" timestamptz
+--SPLIT_SCRIPT--
+CREATE TABLE `miechallenge`.`game_sessions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_game_id` INT NOT NULL,
+  `start_time` TIMESTAMP NULL,
+  `end_time` TIMESTAMP NULL,
+  `created_at` TIMESTAMP NOT NULL,
+  `updated_at` TIMESTAMP NULL,
+  `deleted_at` TIMESTAMP NULL,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  INDEX `fk_game_id_idx` (`fk_game_id` ASC) VISIBLE,
+  CONSTRAINT `fk_game_id` FOREIGN KEY (`fk_game_id`) REFERENCES `miechallenge`.`games` (`id`)
 );
-
-ALTER TABLE "users" ADD CONSTRAINT "users_fk0" FOREIGN KEY ("fkRoleId") REFERENCES "roles" ("id");

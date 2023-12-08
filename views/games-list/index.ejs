@@ -2,22 +2,50 @@
 
   <div class="container">
     <div class="grid grid-cols-4 gap-4">
-      <% games.forEach(game=> { %>
+      <% games?.forEach(game=> { %>
         <div class="card">
           <div class="card-header">
-            <h2>
-              <%= game.name %>
-            </h2>
-          </div>
-          <div class="card-body">
-            Game
-          </div>
-          <div class="card-footer">
-            <button class="button-2 w-full" role="button">Play</button>
-          </div>
+            <div class="flex w-full justify-between">
 
+              <h3>
+                <%= game?.name %>
+              </h3>
+
+              <!-- <i class="fa-solid fa-pen-to-square"></i> -->
+              <i class="fas fa-star"></i>
+
+            </div>
+          </div>
+          <div class="w-full relative" style='height: 170px;'>
+            <div class="absolute grid items-center justify-center w-full h-full appear-on-hover appear-on-hover-bg">
+              <button class="button-1 w-full size-md" role="button">Play</button>
+            </div>
+            <img class="w-full h-full" src="<%= game?.thumbnail %>" alt="Game Image">
+          </div>
+          <div class="card-footer flex flex-col gap-1 text-xs">
+            <div class="flex w-full gap-2">
+              <b>Players</b>
+              <% if (game?.min_players) { %>
+                <span>
+                  <%= game.min_players %>
+                    <% if (game?.max_players) { %>
+                      - <%= game.max_players %>
+                        <% } %>
+                </span>
+                <% } %>
+            </div>
+            <% if(game?.latest_session?.createdAt) { %>
+              <div class="flex w-full justify-between">
+                <b>Last game session</b>
+                <span>
+                  <%= game?.latest_session?.createdAt?.toLocaleString('en-US', { year: 'numeric' , month: '2-digit' ,
+                    day: '2-digit' , hour: '2-digit' , minute: '2-digit' , }) %>
+                </span>
+              </div>
+              <% } %>
+          </div>
         </div>
-        <% }); %>
+        <% }) %>
     </div>
   </div>
 

@@ -1,0 +1,60 @@
+.input-container {
+  position: relative;
+  width: 300px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:hover {
+  border: 2px solid rgba(61, 209, 231, 0.6);
+}
+
+.input-field:focus {
+  border-color: #2aa9cc;
+}
+
+.upload-container {
+  position: relative;
+  width: 324px;
+  overflow: hidden;
+}
+
+.upload-button {
+  display: block;
+  padding: 10px;
+  background-color: #3DD1E7;
+  color: #fff;
+  text-align: center;
+  border: 2px solid #3DD1E7;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #66bad1;
+  border-color: #2aa9cc;
+}
+
+.upload-button:focus {
+  outline: none;
+  background-color: #1d7d99;
+  border-color: #1d7d99;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}

@@ -2,39 +2,43 @@ require('dotenv').config();
 const knex = require('knex');
 const fs = require('fs');
 const _ = require('lodash');
+const sequelizeConfig = require('../sequelize.config.js');
+const env = process.env.NODE_ENV || 'development';
+const config = sequelizeConfig[env]
 
 const dbConfig = {};
-
-dbConfig.connection = {
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  host: process.env.MYSQL_HOST,
-  port: process.env.MYSQL_PORT,
-  dialect: process.env.MYSQL_DIALECT,
-};
-
+dbConfig.client = process.env.MYSQL_CLIENT;
+if (process.env.MYSQL_URL) {
+  dbConfig.connection = process.env.MYSQL_URL;
+} else {
+  dbConfig.connection = config;
+}
 const dbConn = knex(dbConfig);
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    try {
-      console.log('');
-      console.log('------------------- BASE TABLES');
-      console.log('');
-      const sql = fs
-        .readFileSync(__dirname + '/../schema.sql')
-        .toString();
-      return dbConn.raw(sql);
-    } catch (error) {
-      console.log('error:: ', error);
+    console.log('');
+    console.log('------------------- BASE TABLES');
+    console.log('');
+    let sql = fs
+      .readFileSync(__dirname + '/../schema.sql')
+      .toString();
+
+    const queries = sql.split('--SPLIT_SCRIPT--')
+    for (const query of queries) {
+      try {
+        await dbConn.raw(query)
+      } catch (error) {
+        console.log('error', error);
+      }
     }
+
   },
 
   down: async (queryInterface, Sequelize) => {
     const tables = await dbConn.raw(`
-      SELECT * FROM pg_catalog.pg_tables 
-      where tableowner = \'postgres\' and schemaname = \'public\';
+      SELECT * FROM mysql2_catalog.mysql2_tables 
+      where tableowner = \'mariadb\' and schemaname = \'public\';
     `);
     const SequelizeMetaTableName = 'SequelizeMeta';
     const tableDropPromises = _.map(tables.rows, (table) => {

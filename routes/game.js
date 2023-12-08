@@ -1,6 +1,6 @@
 module.exports = {
 	getAdd: (req, res) => {
-		res.render('add-game.ejs', {
+		res.render('../views/add-game.ejs', {
 			title: 'Board Games | Add game'
 		});
 	},
@@ -9,11 +9,16 @@ module.exports = {
 			title: 'Board Games | Edit game'
 		});
 	},
-	postAdd: (req, res) => {
+	postAdd: async (req, res) => {
 		// TODO db.query to insert game
-
+		const data = req.body
+		try {
+			await global.db.Game.create(data)
+			res.status(200).send('New game added!');
+		} catch (error) {
+			res.status(400).send(error.message);
+		}
 		// If all went well, go back to main screen
-		res.redirect('/');
 	},
 	postEdit: (req, res) => {
 		let id = req.params.id;
