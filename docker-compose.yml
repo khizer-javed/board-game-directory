@@ -6,7 +6,7 @@ services:
     command: npm start
     environment:
       NODE_ENV: development
-      MYSQL_URL: mariadb://app:wonderful@mariadb-container:3306/miechallenge
+      MYSQL_URL: mariadb://app:wonderful@db:3306/miechallenge
       PORT: 3000
     networks:
       - board-game-network
