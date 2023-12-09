@@ -1,5 +1,8 @@
-<%- include('../partials/header.ejs') %>
+<%- include('./partials/header.ejs') %>
 
+  <div id="loading" class="loader-container hidden">
+    <div class="loader"></div>
+  </div>
   <div class="container">
     <div class="grid grid-cols-4 gap-4">
       <% games?.forEach(game=> { %>
@@ -12,13 +15,14 @@
               </h3>
 
               <!-- <i class="fa-solid fa-pen-to-square"></i> -->
-              <i class="fas fa-star"></i>
+              <!-- <i class="fas fa-star"></i> -->
 
             </div>
           </div>
           <div class="w-full relative" style='height: 170px;'>
             <div class="absolute grid items-center justify-center w-full h-full appear-on-hover appear-on-hover-bg">
-              <button class="button-1 w-full size-md" role="button">Play</button>
+              <button class="button-1 w-full size-md" role="button"
+                onclick="addGameSession(`<%= game.id %>`)">Play</button>
             </div>
             <img class="w-full h-full" src="<%= game?.thumbnail %>" alt="Game Image">
           </div>
@@ -34,12 +38,12 @@
                 </span>
                 <% } %>
             </div>
-            <% if(game?.latest_session?.createdAt) { %>
+            <% if(game?.game_sessions?.[0]?.createdAt) { %>
               <div class="flex w-full justify-between">
                 <b>Last game session</b>
                 <span>
-                  <%= game?.latest_session?.createdAt?.toLocaleString('en-US', { year: 'numeric' , month: '2-digit' ,
-                    day: '2-digit' , hour: '2-digit' , minute: '2-digit' , }) %>
+                  <%= game?.game_sessions?.[0]?.createdAt?.toLocaleString('en-US', { year: 'numeric' , month: '2-digit'
+                    , day: '2-digit' , hour: '2-digit' , minute: '2-digit' , }) %>
                 </span>
               </div>
               <% } %>
@@ -49,4 +53,34 @@
     </div>
   </div>
 
-  <%- include ('../partials/footer.ejs') %>
+  <script>
+    function loading(loading = false) {
+      if (loading) {
+        document.getElementById('loading').classList.remove('hidden');
+      } else {
+        document.getElementById('loading').classList.add('hidden');
+      }
+    }
+
+    function addGameSession(id) {
+      fetch('/add-game-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id })
+      })
+        .then(response => response.text())
+        .then(data => {
+          loading(false)
+          window.location = '/'
+          window.alert(data)
+        })
+        .catch(error => {
+          loading(false)
+          console.error('Error:', error);
+        });
+    }
+  </script>
+
+  <%- include ('./partials/footer.ejs') %>
