@@ -1,10 +1,10 @@
 <%- include('./partials/header.ejs') %>
 
-  <div id="loading" class="loader-container hidden">
+  <div id="loading" class="loader-container">
     <div class="loader"></div>
   </div>
   <div class="container">
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-1-xs grid-cols-2-sm grid-cols-3-md grid-cols-4-lg grid-cols-5-xl gap-4">
       <% games?.forEach(game=> { %>
         <div class="card">
           <div class="card-header">
@@ -52,6 +52,12 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('hidden');
+      }, 300);
+    });
+
     function loading(loading = false) {
       if (loading) {
         document.getElementById('loading').classList.remove('hidden');
