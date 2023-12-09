@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js --host",
+    "dev": "nodemon app.js",
     "start": "yarn && sequelize db:migrate && nodemon app.js",
     "migrate": "sequelize db:migrate"
   },

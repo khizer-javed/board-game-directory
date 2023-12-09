@@ -54,13 +54,12 @@
 
 .form-card-header {
     border-bottom: 1px solid #ccc;
-    padding: 10px 15px;
+    padding: 25px;
     width: auto;
 }
 
-
 .form-card-footer {
     border-top: 1px solid #ccc;
-    padding: 10px 15px;
+    padding: 25px;
     width: auto;
 }

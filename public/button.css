@@ -104,3 +104,10 @@
         font-size: 1.25rem;
     }
 }
+
+.menu-button-wrapper {
+    width: 16px;
+    height: 16px;
+    padding: 5px;
+    overflow: hidden;
+}

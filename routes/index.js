@@ -1,10 +1,12 @@
+
 const getGames = () => {
 	return global.db.Game.findAll({
 		include: {
 			model: global.db.GameSession,
-			order: [['createdAt', 'DESC']],
-			limit: 1
-		}, order: [['createdAt', 'DESC']],
+			order: [['id', 'DESC']],
+			limit: 1,
+		},
+		order: [['createdAt', 'DESC']],
 	})
 }
 

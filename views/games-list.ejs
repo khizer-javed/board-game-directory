@@ -8,23 +8,21 @@
       <% games?.forEach(game=> { %>
         <div class="card">
           <div class="card-header">
-            <div class="flex w-full justify-between">
-
+            <div class="flex w-full justify-between items-center">
               <h3>
                 <%= game?.name %>
               </h3>
-
-              <!-- <i class="fa-solid fa-pen-to-square"></i> -->
-              <!-- <i class="fas fa-star"></i> -->
-
+              <a class="link" href="/edit-game/<%= game?.id %>">
+                <button class="button-1 w-fit size-xs" role="button">Edit</button>
+              </a>
             </div>
           </div>
           <div class="w-full relative" style='height: 170px;'>
             <div class="absolute grid items-center justify-center w-full h-full appear-on-hover appear-on-hover-bg">
-              <button class="button-1 w-full size-md" role="button"
+              <button class="button-1 w-full size-lg" role="button"
                 onclick="addGameSession(`<%= game.id %>`)">Play</button>
             </div>
-            <img class="w-full h-full" src="<%= game?.thumbnail %>" alt="Game Image">
+            <img style="object-fit: cover;" class="w-full h-full" src="<%= game?.thumbnail %>" alt="Game Image">
           </div>
           <div class="card-footer flex flex-col gap-1 text-xs">
             <div class="flex w-full gap-2">
@@ -43,7 +41,7 @@
                 <b>Last game session</b>
                 <span>
                   <%= game?.game_sessions?.[0]?.createdAt?.toLocaleString('en-US', { year: 'numeric' , month: '2-digit'
-                    , day: '2-digit' , hour: '2-digit' , minute: '2-digit' , }) %>
+                    , day: '2-digit' , hour: '2-digit' , minute: '2-digit' , timeZone: 'America/New_York' }) %>
                 </span>
               </div>
               <% } %>
