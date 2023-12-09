@@ -1,0 +1,84 @@
+<%- include('./partials/header.ejs') %>
+
+  <div id="loading" class="loader-container hidden">
+    <div class="loader"></div>
+  </div>
+  <div class="container">
+    <div class="grid grid-cols-4 gap-4">
+      <% games?.forEach(game=> { %>
+        <div class="card">
+          <div class="card-header">
+            <div class="flex w-full justify-between items-center">
+              <h3>
+                <%= game?.name %>
+              </h3>
+              <a class="link" href="/edit-game/<%= game?.id %>">
+                <button class="button-1 w-fit size-xs" role="button">Edit</button>
+              </a>
+            </div>
+          </div>
+          <div class="w-full relative" style='height: 170px;'>
+            <div class="absolute grid items-center justify-center w-full h-full appear-on-hover appear-on-hover-bg">
+              <button class="button-1 w-full size-lg" role="button"
+                onclick="addGameSession(`<%= game.id %>`)">Play</button>
+            </div>
+            <img style="object-fit: cover;" class="w-full h-full" src="<%= game?.thumbnail %>" alt="Game Image">
+          </div>
+          <div class="card-footer flex flex-col gap-1 text-xs">
+            <div class="flex w-full gap-2">
+              <b>Players</b>
+              <% if (game?.min_players) { %>
+                <span>
+                  <%= game.min_players %>
+                    <% if (game?.max_players) { %>
+                      - <%= game.max_players %>
+                        <% } %>
+                </span>
+                <% } %>
+            </div>
+            <% if(game?.game_sessions?.[0]?.createdAt) { %>
+              <div class="flex w-full justify-between">
+                <b>Last game session</b>
+                <span>
+                  <%= game?.game_sessions?.[0]?.createdAt?.toLocaleString('en-US', { year: 'numeric' , month: '2-digit'
+                    , day: '2-digit' , hour: '2-digit' , minute: '2-digit' , timeZone: 'America/New_York' }) %>
+                </span>
+              </div>
+              <% } %>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+
+  <script>
+    function loading(loading = false) {
+      if (loading) {
+        document.getElementById('loading').classList.remove('hidden');
+      } else {
+        document.getElementById('loading').classList.add('hidden');
+      }
+    }
+
+    function addGameSession(id) {
+      fetch('/add-game-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id })
+      })
+        .then(response => response.text())
+        .then(data => {
+          loading(false)
+          window.location = '/'
+          window.alert(data)
+        })
+        .catch(error => {
+          loading(false)
+          console.error('Error:', error);
+        });
+    }
+  </script>
+
+  <%- include ('./partials/footer.ejs') %>

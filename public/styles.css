@@ -1,2 +1,7 @@
-@import "/game-list.css";
 @import "/main.css";
+@import "/button.css";
+@import "/header.css";
+@import "/footer.css";
+@import "/card.css";
+@import "/input.css";
+@import "/loader.css";

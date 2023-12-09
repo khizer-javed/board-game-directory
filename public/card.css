@@ -1,0 +1,65 @@
+/*--------------------------------------------------------------
+# Card
+--------------------------------------------------------------*/
+.card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-header {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 15px;
+    width: auto;
+}
+
+
+.card-footer {
+    border-top: 1px solid #ccc;
+    padding: 10px 15px;
+    width: auto;
+}
+
+
+
+/*--------------------------------------------------------------
+# Form Card
+--------------------------------------------------------------*/
+.form-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: hidden;
+}
+
+.form-card-body {
+    padding: 30px;
+}
+
+.form-card-header {
+    border-bottom: 1px solid #ccc;
+    padding: 25px;
+    width: auto;
+}
+
+.form-card-footer {
+    border-top: 1px solid #ccc;
+    padding: 25px;
+    width: auto;
+}
