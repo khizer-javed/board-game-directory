@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    image: node:14
+    working_dir: /app
+    command: npm start
+    environment:
+      NODE_ENV: development
+      MYSQL_URL: mariadb://app:wonderful@mariadb-container:3306/miechallenge
+      PORT: 3000
+    networks:
+      - board-game-network
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: app
+      MYSQL_PASSWORD: wonderful
+      MYSQL_DATABASE: miechallenge
+    networks:
+      - board-game-network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+networks:
+  board-game-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
