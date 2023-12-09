@@ -1,8 +1,8 @@
 # Use an official Node.js image as the base image
 FROM node:14
 
-# Install sequelize-cli globally
-RUN npm install -g sequelize-cli
+# Install sequelize-cli and nodemon globally
+RUN npm install -g sequelize-cli nodemon
 
 # Set the working directory inside the container
 WORKDIR /app
