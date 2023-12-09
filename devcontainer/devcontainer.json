@@ -1,9 +1,0 @@
-{
-    "name": "app-container",
-    "dockerComposeFile": "/code/docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/code",
-    "extensions": [
-      "dbaeumer.vscode-eslint"
-    ]
-  }
