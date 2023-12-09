@@ -1,8 +1,12 @@
 version: '3'
 services:
   app:
+    build: .
     image: node:14
-    working_dir: /app
+    ports:
+      - "3000:3000"
+    container_name: app-container
+    working_dir: /code
     command: npm start
     environment:
       NODE_ENV: development
@@ -13,10 +17,11 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
+      - .:/code
 
   db:
     image: mariadb
+    container_name: db-container
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: app
