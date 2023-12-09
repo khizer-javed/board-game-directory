@@ -84,6 +84,8 @@ Bonus points if you can make a fully automated Dockerfile container for building
     - Once Docker runs the start script, it will execute migrations and start the app.
     - The app is running at http://localhost:3000/.
 
+Tutorial Link: https://youtu.be/GfhG-I7lcFw
+
 Reviewer Requirements:
     - VS Code
     - Docker
